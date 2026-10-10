@@ -121,23 +121,23 @@ export const CaseProvider = ({ children }: { children: ReactNode }) => {
   ]);
 
   const [conflicts, setConflicts] = useState<Record<string, unknown>[]>([{
-    value: 'January 2026', origin: 'user', verified: true, type: 'Start Date',
-    relations: [{ type: 'differs from', target: '1 Feb 2026' }, { type: 'relevant to', target: 'Requirement 2' }],
+    id: 'demo-conflict-1',
+    case_id: 'demo-case',
+    fact_type: 'Start Date',
+    description: 'Your story says January, but the employment letter says 1 February 2026.',
+    resolved: false,
   }]);
 
   const [questions, setQuestions] = useState<Record<string, unknown>[]>([{
+    id: 'demo-q-1',
+    case_id: 'demo-case',
     title: 'When did your work start?',
-    why: 'We found two different dates for this requirement.',
-    evidence: [
-      { origin: 'user', type: 'Start Date', value: 'January 2026' },
-      { origin: 'document', type: 'Start Date', value: '1 Feb 2026', source: { docName: 'Employment Letter', page: '1', excerpt: 'Your date of joining will be 1 February 2026.' } },
-    ],
+    reason: 'We found two different dates for this requirement.',
     options: ['January 2026', '1 Feb 2026'],
+    answered: false,
   }]);
 
-  const [answered, setAnswered] = useState<Record<string, unknown>[]>([
-    { question: 'Who is the employer?', answer: 'Acme Corp' },
-  ]);
+  const [answered, setAnswered] = useState<Record<string, unknown>[]>([]);
 
   // ─── Actions that talk to the API ───────────────────────────────────────
 

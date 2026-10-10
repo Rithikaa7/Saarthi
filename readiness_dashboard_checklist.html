@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="shell-type" content="web_dashboard" />
+    <title>Dossier Readiness - Nyaya Saarathi</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    
+    <!-- Base Styles -->
+    <style>
+        @layer base {
+            html, body { margin: 0; padding: 0; height: 100%; }
+            body { overscroll-behavior: none; }
+        }
+        /* Hide scrollbar for a cleaner sidebar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .sidebar-scroll::-webkit-scrollbar { display: none; }
+        
+        /* Mobile menu utility */
+        .mobile-menu-open { overflow: hidden; }
+        .mobile-sidebar-open { transform: translateX(0) !important; }
+        .mobile-overlay-open { opacity: 1 !important; pointer-events: auto !important; }
+    </style>
+    
+    <!-- Tailwind Configuration -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-sidebar': '#102B3A',
+                        'brand-navy': '#142B3B',
+                        'brand-teal': '#087C78',
+                        'brand-teal-dark': '#06645F',
+                        'brand-bg': '#F5F7FA',
+                        'brand-card': '#FFFFFF',
+                        'brand-text-primary': '#182B3A',
+                        'brand-text-secondary': '#657586',
+                        'brand-border': '#E1E8EF',
+                        'brand-pale-blue': '#EDF4FC',
+                        'brand-pale-teal': '#E6F5F2',
+                        'brand-warn-bg': '#FFF5DF',
+                        'brand-warn-text': '#895A12',
+                        'brand-error-bg': '#FDECEC',
+                        'brand-error-text': '#A72E35',
+                    },
+                    fontFamily: {
+                        'heading': ['Manrope', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    spacing: {
+                        'xs': '4px',
+                        'sm': '8px',
+                        'md': '12px',
+                        'lg': '16px',
+                        'xl': '24px',
+                        '2xl': '32px',
+                    },
+                    borderRadius: {
+                        'input': '8px',
+                        'card': '12px',
+                        'panel': '16px',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-bg font-body text-brand-text-primary antialiased flex flex-col min-h-screen">
+
+    <!-- Mobile Sidebar Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-brand-navy/60 backdrop-blur-sm z-40 opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden" aria-hidden="true"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-brand-sidebar text-white z-50 flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0 shadow-xl lg:shadow-none border-r border-white/10">
+        
+        <!-- Brand Area -->
+        <div class="h-16 shrink-0 flex items-center px-lg border-b border-white/10 gap-md">
+            <span class="material-symbols-outlined text-brand-teal text-[24px]">balance</span>
+            <div class="flex flex-col">
+                <span class="font-heading font-bold text-sm tracking-wide leading-tight">NYAYA SAARATHI</span>
+                <span class="text-[10px] text-brand-text-secondary font-medium tracking-wider uppercase">நியாய சாரதி</span>
+            </div>
+            <!-- Mobile Close Button -->
+            <button id="close-sidebar" class="ml-auto lg:hidden text-brand-text-secondary hover:text-white transition-colors p-sm rounded-input hover:bg-white/5">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="flex-1 overflow-y-auto sidebar-scroll py-xl px-md space-y-xl">
+            
+            <!-- Group: Workspace -->
+            <div>
+                <div class="px-md mb-sm text-[11px] font-semibold text-brand-text-secondary uppercase tracking-wider">Workspace</div>
+                <div class="space-y-xs">
+                    <a href="#" class="flex items-center gap-md px-md py-2 rounded-input text-gray-300 hover:bg-white/5 hover:text-white transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-teal">
+                        <span class="material-symbols-outlined text-[18px]">dashboard</span>
+                        <span class="text-sm font-medium">Overview & Metrics</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-md px-md py-2 rounded-input text-gray-300 hover:bg-white/5 hover:text-white transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-teal">
+                        <span class="material-symbols-outlined text-[18px]">folder_shared</span>
+                        <span class="text-sm font-medium">My Cases</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Group: Prepare Your Case -->
+            <div>
+                <div class="px-md mb-sm text-[11px] font-semibold text-brand-text-secondary uppercase tracking-wider">Prepare Your Case</div>
+                <div class="space-y-xs">
+                    <a href="#" class="flex items-center gap-md px-md py-2 rounded-input text-gray-300 hover:bg-white/5 hover:text-white transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-teal">
+                        <span class="material-symbols-outlined text-[18px]">assignment_add</span>
+                        <span class="text-sm font-medium">Intake Stepper</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-md px-md py-2 rounded-input text-gray-300 hover:bg-white/5 hover:text-white transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-teal">
+                        <span class="material-symbols-outlined text-[18px]">terminal</span>
+                        <span class="text-sm font-medium">Document Terminal</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-md px-md py-2 rounded-input text-gray-300 hover:bg-white/5 hover:text-white transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-teal">
+                        <span class="material-symbols-outlined text-[18px]">account_tree</span>
+                        <span class="text-sm font-medium">Evidence Ledger</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-md px-md py-2 rounded-input text-gray-300 hover:bg-white/5 hover:text-white transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-teal">
+                        <span class="material-symbols-outlined text-[18px]">rule</span>
+                        <span class="text-sm font-medium">Clarifications</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Group: Review & Report -->
+            <div>
+                <div class="px-md mb-sm text-[11px] font-semibold text-brand-text-secondary uppercase tracking-wider">Review & Report</div>
+                <div class="space-y-xs">
+                    <a href="#" aria-current="page" class="flex items-center gap-md px-md py-2 rounded-input bg-brand-teal text-white shadow-sm transition-all outline-none focus-visible:ring-2 focus-visible:ring-white">
+                        <span class="material-symbols-outlined text-[18px]">verified</span>
+                        <span class="text-sm font-medium">Case Readiness</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-md px-md py-2 rounded-input text-gray-300 hover:bg-white/5 hover:text-white transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-teal">
+                        <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                        <span class="text-sm font-medium">Bundle Export</span>
+                    </a>
+                </div>
+            </div>
+            
+        </nav>
+        
+        <!-- Sidebar Footer -->
+        <div class="p-lg mt-auto border-t border-white/5">
+            <div class="flex items-center gap-md bg-white/5 rounded-input p-md">
+                <div class="h-8 w-8 rounded-full bg-brand-navy border border-white/10 flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-[16px] text-brand-teal">shield_person</span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="text-xs font-medium text-white truncate">DLSA Node</span>
+                    <span class="text-[10px] text-brand-text-secondary truncate">Local Environment</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="flex-1 flex flex-col lg:ml-64 min-w-0">
+        
+        <!-- Sticky Header Container -->
+        <div class="sticky top-0 z-30 w-full flex flex-col shadow-sm">
+            
+            <!-- Demo Truth Banner -->
+            <div class="bg-brand-pale-blue text-brand-text-secondary text-xs py-1.5 px-lg text-center border-b border-brand-border font-medium flex justify-center items-center gap-sm">
+                <span class="material-symbols-outlined text-[14px] text-brand-teal">info</span>
+                Demo mode &middot; Synthetic data only &middot; No live backend connection
+            </div>
+
+            <!-- Application Header -->
+            <header class="h-16 bg-brand-card border-b border-brand-border flex items-center justify-between px-lg">
+                
+                <div class="flex items-center gap-md">
+                    <!-- Mobile Menu Toggle -->
+                    <button id="open-sidebar" class="lg:hidden text-brand-text-secondary hover:text-brand-navy p-xs -ml-xs rounded-input transition-colors">
+                        <span class="material-symbols-outlined text-[24px]">menu</span>
+                    </button>
+                    
+                    <!-- App Title / Context -->
+                    <div class="hidden sm:flex flex-col justify-center h-full">
+                        <h1 class="font-heading font-bold text-brand-navy text-sm leading-tight">Nyaya Saarathi</h1>
+                        <span class="text-xs text-brand-text-secondary font-medium">Legal-Aid & Evidence Preparation</span>
+                    </div>
+
+                    <div class="hidden md:block h-6 w-px bg-brand-border mx-sm"></div>
+
+                    <!-- Case Selector / Active Context -->
+                    <div class="hidden md:flex items-center gap-sm bg-brand-pale-blue text-brand-navy px-md py-1.5 rounded-input border border-brand-border/60 hover:border-brand-border transition-colors cursor-pointer">
+                        <span class="material-symbols-outlined text-[16px] text-brand-teal">folder_open</span>
+                        <span class="text-sm font-medium tracking-wide">#DLSA-2026-0842-DEL</span>
+                        <span class="material-symbols-outlined text-[16px] text-brand-text-secondary">arrow_drop_down</span>
+                    </div>
+                </div>
+
+                <!-- Utilities -->
+                <div class="flex items-center gap-lg">
+                    <!-- Status Indicator -->
+                    <div class="hidden xl:flex items-center gap-sm text-brand-text-secondary text-xs font-medium px-md py-1.5 rounded-input bg-brand-bg border border-brand-border/60">
+                        <span class="material-symbols-outlined text-[14px]">fact_check</span>
+                        <span>Deterministic Rules v4.2</span>
+                    </div>
+                    
+                    <!-- Language Toggle -->
+                    <button class="hidden sm:flex items-center gap-xs text-brand-text-secondary hover:text-brand-navy transition-colors text-sm font-medium px-xs py-1 rounded-input hover:bg-brand-bg">
+                        <span class="material-symbols-outlined text-[18px]">translate</span>
+                        <span>EN / TA</span>
+                    </button>
+
+                    <!-- Session/User Control -->
+                    <button class="h-9 w-9 rounded-full bg-brand-bg flex items-center justify-center text-brand-navy hover:bg-brand-pale-blue transition-colors border border-brand-border shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-brand-teal">
+                        <span class="material-symbols-outlined text-[18px]">account_circle</span>
+                    </button>
+                </div>
+            </header>
+        </div>
+
+        <!-- Main Scrollable Workspace -->
+        <main class="flex-1 overflow-y-auto p-lg md:p-xl w-full">
+            <div class="max-w-[1200px] mx-auto w-full flex flex-col pb-xl">
+                
+                <!-- Page Header & Breadcrumb -->
+                <div class="mb-xl">
+                    <nav class="flex items-center gap-xs text-xs text-brand-text-secondary mb-md" aria-label="Breadcrumb">
+                        <a href="#" class="hover:text-brand-navy transition-colors focus-visible:underline outline-none">Review & Report</a>
+                        <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                        <span class="text-brand-navy font-medium" aria-current="page">Case Readiness</span>
+                    </nav>
+                    <h2 class="text-2xl md:text-3xl font-heading font-extrabold text-brand-navy mb-xs tracking-tight">Dossier Readiness</h2>
+                    <p class="text-brand-text-secondary text-sm md:text-base max-w-2xl leading-relaxed">Review case completeness, evidence traceability, unresolved questions, and preparation requirements.</p>
+                </div>
+
+                <!-- Readiness Overview Card -->
+                <section class="bg-brand-card rounded-card border border-brand-border p-xl mb-lg shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-xl relative overflow-hidden" aria-label="Readiness Overview">
+                    <!-- Decorative subtle accent -->
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-brand-teal rounded-l-card"></div>
+                    
+                    <div class="flex-1 pl-xs">
+                        <div class="flex items-center gap-md mb-xs">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-brand-pale-blue text-brand-navy border border-brand-border">Pre-Filing Audit</span>
+                        </div>
+                        <h3 class="text-xl font-heading font-bold text-brand-navy mb-xs">Unpaid Wages Claim & Constructive Dismissal</h3>
+                        <p class="text-sm text-brand-text-secondary font-medium">Ref: #DLSA-2026-0842-DEL</p>
+                    </div>
+
+                    <div class="flex flex-col w-full lg:w-[320px] shrink-0 bg-brand-bg p-md rounded-input border border-brand-border/60">
+                        <div class="flex justify-between items-baseline mb-sm">
+                            <span class="text-sm font-semibold text-brand-text-primary">Preparation Progress</span>
+                            <span class="text-lg font-heading font-extrabold text-brand-teal">85%</span>
+                        </div>
+                        <div class="w-full bg-brand-border rounded-full h-2 mb-xs overflow-hidden" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Case readiness score">
+                            <div class="bg-brand-teal h-full rounded-full transition-all duration-500 ease-out" style="width: 85%"></div>
+                        </div>
+                        <p class="text-xs text-brand-text-secondary font-medium">12 of 14 core requirements verified</p>
+                    </div>
+                </section>
+
+                <!-- Summary Metric Cards -->
+                <section class="grid grid-cols-2 lg:grid-cols-4 gap-md mb-xl" aria-label="Key Metrics">
+                    <!-- Metric 1 -->
+                    <div class="bg-brand-card rounded-card border border-brand-border p-md shadow-sm flex flex-col justify-between hover:border-brand-border/80 transition-colors">
+                        <div class="flex items-start justify-between mb-lg">
+                            <div class="w-10 h-10 rounded-input bg-brand-pale-teal flex items-center justify-center text-brand-teal">
+                                <span class="material-symbols-outlined text-[20px]">fact_check</span>
+                            </div>
+                            <span class="text-brand-text-secondary material-symbols-outlined text-[16px] opacity-50">arrow_outward</span>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-heading font-extrabold text-brand-navy mb-xs tracking-tight">12/14</div>
+                            <div class="text-xs text-brand-text-secondary font-medium">Requirements completed</div>
+                        </div>
+                    </div>
+                    <!-- Metric 2 -->
+                    <div class="bg-brand-card rounded-card border border-brand-border p-md shadow-sm flex flex-col justify-between hover:border-brand-border/80 transition-colors">
+                        <div class="flex items-start justify-between mb-lg">
+                            <div class="w-10 h-10 rounded-input bg-brand-pale-blue flex items-center justify-center text-brand-navy border border-brand-border/50">
+                                <span class="material-symbols-outlined text-[20px]">description</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-heading font-extrabold text-brand-navy mb-xs tracking-tight">6</div>
+                            <div class="text-xs text-brand-text-secondary font-medium">Documents reviewed</div>
+                        </div>
+                    </div>
+                    <!-- Metric 3 -->
+                    <div class="bg-brand-card rounded-card border border-brand-border p-md shadow-sm flex flex-col justify-between hover:border-brand-border/80 transition-colors">
+                        <div class="flex items-start justify-between mb-lg">
+                            <div class="w-10 h-10 rounded-input bg-brand-bg flex items-center justify-center text-brand-text-secondary border border-brand-border">
+                                <span class="material-symbols-outlined text-[20px]">link</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-heading font-extrabold text-brand-navy mb-xs tracking-tight">24</div>
+                            <div class="text-xs text-brand-text-secondary font-medium">Verified source references</div>
+                        </div>
+                    </div>
+                    <!-- Metric 4 (Attention) -->
+                    <div class="bg-brand-card rounded-card border border-brand-border border-b-2 border-b-brand-error-text p-md shadow-sm flex flex-col justify-between">
+                        <div class="flex items-start justify-between mb-lg">
+                            <div class="w-10 h-10 rounded-input bg-brand-error-bg flex items-center justify-center text-brand-error-text">
+                                <span class="material-symbols-outlined text-[20px]">priority_high</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-heading font-extrabold text-brand-error-text mb-xs tracking-tight">2</div>
+                            <div class="text-xs text-brand-text-secondary font-medium">Open discrepancies</div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-xl">
+                    
+                    <!-- Left Column: Pleading Assembly Checklist -->
+                    <div class="lg:col-span-8 flex flex-col">
+                        <div class="bg-brand-card rounded-panel border border-brand-border shadow-sm overflow-hidden flex flex-col h-full">
+                            <!-- Header -->
+                            <div class="p-lg md:p-xl border-b border-brand-border bg-brand-bg/50">
+                                <h3 class="text-lg font-heading font-bold text-brand-navy mb-xs">Pleading Assembly Status</h3>
+                                <p class="text-sm text-brand-text-secondary">Review each preparation requirement before exporting the dossier.</p>
+                            </div>
+                            
+                            <!-- List -->
+                            <div class="divide-y divide-brand-border flex-1">
+                                
+                                <!-- Complete Item -->
+                                <div class="p-lg flex flex-col sm:flex-row sm:items-start justify-between gap-md hover:bg-brand-bg/30 transition-colors">
+                                    <div class="flex items-start gap-md">
+                                        <div class="mt-0.5 w-6 h-6 rounded-full bg-brand-pale-teal flex items-center justify-center shrink-0">
+                                            <span class="material-symbols-outlined text-[16px] text-brand-teal">check</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold text-brand-text-primary text-sm mb-1">Memo of Parties Structured</div>
+                                            <div class="text-xs text-brand-text-secondary leading-relaxed">
+                                                All petitioner and respondent identities extracted and formatting complies with District Court rules.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="shrink-0 flex sm:justify-end mt-sm sm:mt-0 pl-10 sm:pl-0">
+                                        <span class="inline-flex items-center gap-xs px-2.5 py-1 rounded bg-brand-pale-teal text-brand-teal text-[11px] font-bold uppercase tracking-wider border border-brand-teal/20">
+                                            Complete
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Complete Item -->
+                                <div class="p-lg flex flex-col sm:flex-row sm:items-start justify-between gap-md hover:bg-brand-bg/30 transition-colors">
+                                    <div class="flex items-start gap-md">
+                                        <div class="mt-0.5 w-6 h-6 rounded-full bg-brand-pale-teal flex items-center justify-center shrink-0">
+                                            <span class="material-symbols-outlined text-[16px] text-brand-teal">check</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold text-brand-text-primary text-sm mb-1">List of Events / Chronology</div>
+                                            <div class="text-xs text-brand-text-secondary leading-relaxed">
+                                                Sequential timeline structured from 6 identified documents. Zero unreferenced dates found.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="shrink-0 flex sm:justify-end mt-sm sm:mt-0 pl-10 sm:pl-0">
+                                        <span class="inline-flex items-center gap-xs px-2.5 py-1 rounded bg-brand-pale-teal text-brand-teal text-[11px] font-bold uppercase tracking-wider border border-brand-teal/20">
+                                            Complete
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Needs Review Item -->
+                                <div class="p-lg flex flex-col sm:flex-row sm:items-start justify-between gap-md bg-brand-warn-bg/20 hover:bg-brand-warn-bg/40 transition-colors relative">
+                                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-brand-warn-text"></div>
+                                    <div class="flex items-start gap-md">
+                                        <div class="mt-0.5 w-6 h-6 rounded-full bg-brand-warn-bg border border-brand-warn-text/20 flex items-center justify-center shrink-0">
+                                            <span class="material-symbols-outlined text-[16px] text-brand-warn-text">pending_actions</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold text-brand-text-primary text-sm mb-1">Income Corroboration Affidavit</div>
+                                            <div class="text-xs text-brand-text-secondary leading-relaxed mb-2">
+                                                Respondent's asset declaration is missing mandatory schedule C entries. Requires follow-up under §91 CrPC.
+                                            </div>
+                                            <button class="text-xs font-semibold text-brand-navy hover:text-brand-teal transition-colors flex items-center gap-1 focus-visible:underline outline-none">
+                                                View Clarification details <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="shrink-0 flex sm:justify-end mt-sm sm:mt-0 pl-10 sm:pl-0">
+                                        <span class="inline-flex items-center gap-xs px-2.5 py-1 rounded bg-brand-warn-bg text-brand-warn-text text-[11px] font-bold uppercase tracking-wider border border-brand-warn-text/20">
+                                            Needs Review
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Blocked / Missing Item -->
+                                <div class="p-lg flex flex-col sm:flex-row sm:items-start justify-between gap-md bg-brand-error-bg/20 hover:bg-brand-error-bg/40 transition-colors relative">
+                                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-brand-error-text"></div>
+                                    <div class="flex items-start gap-md">
+                                        <div class="mt-0.5 w-6 h-6 rounded-full bg-brand-error-bg border border-brand-error-text/20 flex items-center justify-center shrink-0">
+                                            <span class="material-symbols-outlined text-[16px] text-brand-error-text">error</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-semibold text-brand-text-primary text-sm mb-1">Statutory Limitation Check</div>
+                                            <div class="text-xs text-brand-text-secondary leading-relaxed mb-2">
+                                                Deterministic rule failed: Date of termination (15 Jan 2026) conflicts with final wage slip period (28 Jan 2026).
+                                            </div>
+                                            <button class="text-xs font-semibold text-brand-error-text hover:text-brand-navy transition-colors flex items-center gap-1 focus-visible:underline outline-none">
+                                                Resolve Timeline <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="shrink-0 flex sm:justify-end mt-sm sm:mt-0 pl-10 sm:pl-0">
+                                        <span class="inline-flex items-center gap-xs px-2.5 py-1 rounded bg-brand-error-bg text-brand-error-text text-[11px] font-bold uppercase tracking-wider border border-brand-error-text/20">
+                                            Blocked
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Next Actions & Export -->
+                    <div class="lg:col-span-4 flex flex-col gap-lg">
+                        
+                        <!-- Next Steps Panel -->
+                        <div class="bg-brand-card rounded-panel border border-brand-border shadow-sm flex flex-col">
+                            <div class="p-lg border-b border-brand-border flex items-center gap-sm">
+                                <span class="material-symbols-outlined text-brand-teal text-[20px]">assignment_turned_in</span>
+                                <h3 class="text-base font-heading font-bold text-brand-navy">Next Steps</h3>
+                            </div>
+                            <div class="p-lg space-y-md flex-1 bg-brand-bg/30">
+                                
+                                <!-- Action 1 (High Priority) -->
+                                <div class="bg-white border border-brand-error-text/30 rounded-card p-md shadow-sm relative overflow-hidden group hover:border-brand-error-text/60 transition-colors">
+                                    <div class="absolute top-0 left-0 w-1 h-full bg-brand-error-text"></div>
+                                    <h4 class="text-sm font-bold text-brand-text-primary mb-1">Resolve Chronology Conflict</h4>
+                                    <p class="text-xs text-brand-text-secondary mb-3 leading-relaxed">The termination date in evidence creates a statutory limitation bar under Rule #D-802.</p>
+                                    <a href="#" class="inline-flex items-center justify-center w-full py-2 px-3 bg-brand-error-bg text-brand-error-text rounded-input text-xs font-bold transition-colors hover:bg-brand-error-text hover:text-white outline-none focus-visible:ring-2 focus-visible:ring-brand-error-text focus-visible:ring-offset-1">
+                                        Review Timeline Data
+                                    </a>
+                                </div>
+
+                                <!-- Action 2 -->
+                                <div class="bg-white border border-brand-warn-text/30 rounded-card p-md shadow-sm relative overflow-hidden group hover:border-brand-warn-text/60 transition-colors">
+                                    <div class="absolute top-0 left-0 w-1 h-full bg-brand-warn-text"></div>
+                                    <h4 class="text-sm font-bold text-brand-text-primary mb-1">Upload Missing Statement</h4>
+                                    <p class="text-xs text-brand-text-secondary mb-3 leading-relaxed">SBI Passbook required to verify non-payment for the February 2026 wage cycle.</p>
+                                    <a href="#" class="inline-flex items-center justify-center w-full py-2 px-3 bg-brand-warn-bg text-brand-warn-text rounded-input text-xs font-bold transition-colors hover:bg-[#E0A82E] hover:text-white outline-none focus-visible:ring-2 focus-visible:ring-brand-warn-text focus-visible:ring-offset-1">
+                                        Open Document Terminal
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Export Action Panel -->
+                        <div class="bg-brand-card rounded-panel border border-brand-border p-xl shadow-sm text-center mt-auto">
+                            <div class="w-12 h-12 bg-brand-pale-blue rounded-full flex items-center justify-center mx-auto mb-md border border-brand-border/60">
+                                <span class="material-symbols-outlined text-brand-navy">file_download</span>
+                            </div>
+                            <h3 class="text-base font-heading font-bold text-brand-navy mb-xs">Export Dossier Bundle</h3>
+                            <p class="text-xs text-brand-text-secondary mb-lg leading-relaxed">Finalize all requirements to generate the court-ready A4 PDF submission.</p>
+                            
+                            <!-- Disabled state shown for realism based on 85% readiness -->
+                            <button class="w-full py-3 px-4 bg-brand-bg text-brand-text-secondary border border-brand-border rounded-input text-sm font-semibold cursor-not-allowed flex items-center justify-center gap-sm transition-colors" disabled aria-disabled="true" title="Resolve blocked items before export">
+                                <span class="material-symbols-outlined text-[18px]">lock</span>
+                                Generate PDF
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Sidebar Toggle Logic
+            const sidebar = document.getElementById('sidebar');
+            const openBtn = document.getElementById('open-sidebar');
+            const closeBtn = document.getElementById('close-sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            const body = document.body;
+
+            function toggleSidebar() {
+                const isOpen = sidebar.classList.contains('mobile-sidebar-open');
+                
+                if (isOpen) {
+                    sidebar.classList.remove('mobile-sidebar-open');
+                    overlay.classList.remove('mobile-overlay-open');
+                    body.classList.remove('mobile-menu-open');
+                } else {
+                    sidebar.classList.add('mobile-sidebar-open');
+                    overlay.classList.add('mobile-overlay-open');
+                    body.classList.add('mobile-menu-open');
+                }
+            }
+
+            openBtn.addEventListener('click', toggleSidebar);
+            closeBtn.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+
+            // Prevent navigation defaults on dummy links
+            const dummyLinks = document.querySelectorAll('a[href="#"]');
+            dummyLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // In a real app, this would route. 
+                    // Keeping standard focus states active for a11y testing.
+                });
+            });
+        });
+    </script>
+</body>
+</html>
