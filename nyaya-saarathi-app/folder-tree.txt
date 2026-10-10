@@ -1,0 +1,95 @@
+src/
+├── app
+│   ├── admin
+│   │   └── page.tsx
+│   ├── clarify
+│   │   └── page.tsx
+│   ├── dashboard
+│   │   └── page.tsx
+│   ├── deleted
+│   │   └── page.tsx
+│   ├── evidence-map
+│   │   └── page.tsx
+│   ├── expired
+│   │   └── page.tsx
+│   ├── faq
+│   │   └── page.tsx
+│   ├── help
+│   │   └── page.tsx
+│   ├── intake
+│   │   └── page.tsx
+│   ├── offline
+│   │   └── page.tsx
+│   ├── pathway
+│   │   └── page.tsx
+│   ├── privacy
+│   │   └── page.tsx
+│   ├── requirements
+│   │   └── page.tsx
+│   ├── review
+│   │   └── page.tsx
+│   ├── sources
+│   │   └── page.tsx
+│   ├── support-worker
+│   │   └── page.tsx
+│   ├── upload
+│   │   └── page.tsx
+│   ├── welcome
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components
+│   ├── clarify
+│   │   ├── AnswerActions.tsx
+│   │   ├── AnsweredList.tsx
+│   │   ├── QuestionCard.tsx
+│   │   ├── QueueSummary.tsx
+│   │   └── WhatChangedPanel.tsx
+│   ├── content
+│   │   ├── AIDisclosure.tsx
+│   │   ├── CanCannotCard.tsx
+│   │   ├── InfoCard.tsx
+│   │   ├── InlineWarning.tsx
+│   │   ├── PathwayCard.tsx
+│   │   ├── RequirementCard.tsx
+│   │   ├── ReviewBadge.tsx
+│   │   ├── SafetyBanner.tsx
+│   │   └── SourceCard.tsx
+│   ├── dashboard
+│   │   └── StatusChip.tsx
+│   ├── evidence
+│   │   ├── DetailPanel.tsx
+│   │   ├── EvidenceCard.tsx
+│   │   ├── OriginBadge.tsx
+│   │   ├── ProcessingStatus.tsx
+│   │   ├── RelationshipList.tsx
+│   │   ├── SourceExcerpt.tsx
+│   │   └── VerificationBadge.tsx
+│   ├── export
+│   │   ├── ApprovalBlock.tsx
+│   │   ├── DocumentPicker.tsx
+│   │   ├── DoneCard.tsx
+│   │   ├── OfficialLinksPanel.tsx
+│   │   ├── PackageTree.tsx
+│   │   └── SummaryEditor.tsx
+│   ├── inputs
+│   │   ├── ConsentBlock.tsx
+│   │   ├── FileDropzone.tsx
+│   │   ├── FileRow.tsx
+│   │   └── PasteTextBox.tsx
+│   ├── misc
+│   │   ├── EmptyState.tsx
+│   │   └── LoadingState.tsx
+│   ├── shell
+│   │   ├── AppFooter.tsx
+│   │   ├── AppHeader.tsx
+│   │   ├── DemoDataBanner.tsx
+│   │   ├── DisclaimerBanner.tsx
+│   │   ├── GlobalActions.tsx
+│   │   ├── Shell.tsx
+│   │   └── StepNavigator.tsx
+│   └── Navbar.tsx
+└── store
+    └── CaseContext.tsx

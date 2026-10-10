@@ -1,0 +1,12 @@
+# One-shot Node.js scaffold scripts — not application code, not linted.
+scaffold.js
+shell-scaffold.js
+modules-scaffold.js
+modules-4-5-scaffold.js
+modules-7-9-scaffold.js
+refactor-pages.js
+refactor-4-5-pages.js
+refactor-remaining-pages.js
+scaffold-supporting-pages.js
+integrate-store.js
+update-all-pages-store.js
